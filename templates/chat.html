@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatter</title>
+    <style>
+        h3 {
+            background-color: black;
+            color: white;
+            margin-top: 0px;
+        }
+
+        h4 {
+            background-color: #b2adad;
+            color: black;
+            margin: 0px;
+        }
+        
+        .box {
+            border: 1px solid black;
+        }
+
+        #title_info {
+            background-color: #e3e7f2;
+        }
+        .state {
+            margin: 5px;
+        }
+        form {
+            position: fixed;
+            bottom: 5px;
+            left: 5px;
+            background-color: white;
+        }
+    </style>
+    <script>
+        window.addEventListener("load", function() {
+            let name = document.querySelector("#id_name");
+            let text = document.querySelector("#id_text");
+            setInterval(function() {
+                if(document.activeElement == name || document.activeElement == text) {
+                    if((name.value == false) || (text.value == false)) {
+                        location.reload();
+                    }
+                }
+            }, 1000 * 5);
+        })
+    </script>
+</head>
+<body>
+    <h1>Chatter</h1>
+    <p><a href="/chatter/home/">HOME</a>  <a href="/chatter/titles/?tag={{ title.parent }}">TITLE</a></p>
+    <div class="box" id="title_info">
+        <h3>Current title</h3>
+        <p><b>Title Name: </b>{{ title.name_text }}</p>
+        <p><b>description: </b>{{ title.chat_text }}</p>
+    </div>
+    <form action="" method="post" id="text_form" class="box">
+        <h3>talk!!!</h3>
+        {% csrf_token %} 
+        {{ form.name.label }} <br>
+        {{ form.name }}
+        <br> 
+        {{ form.text.label }}<br>
+        {{ form.text }}
+        <input type="submit" value="送信" id="button">
+        <hr>
+    </form>
+    <div class="box">
+        <h3>Chats</h3>
+        {% for data in chat_data %}
+        <div class="state box">
+            <h4>{{ data.name_text }} : {{ data.pub_date }}</h4>
+            <p>{{ data.chat_text }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <br><br><br><br><br><br><br>
+</body>
+
+</html>

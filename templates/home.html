@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+{% load staticfiles %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatter HOME</title>
+    <style>
+        .state {
+            border: 1px solid black;
+            margin: 5px;
+            background-color: white;
+        }
+
+        #id_text {
+            word-wrap: break-word;
+            min-height: 16px;
+        }
+
+        #text_form {
+            background-color: white;
+            border: 1px solid black;
+            margin-top: 30px;
+        }
+
+        .tags {
+            background-color: #e8d9be
+        }
+
+        h3 {
+            background-color: black;
+            color: white;
+            margin-top: 0px;
+        }
+
+        h4 {
+            background-color: skyblue;
+            color: black;
+            margin: 0px;
+        }
+        
+        .box {
+            border: 1px solid black;
+        }
+        #head {
+            background-color: #e3e7f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chatter</h1>
+    <div class="box" id="head">
+    <h3>Welcome to Chatter !!!!</h3>
+    <p>This is a test site</p>
+    </div>
+    {% block body %}
+    <div class="tags box">
+    <h3> All tags </h3>
+    {% for data in tag_data %}
+    <div class="state">
+        <a href="/chatter/titles/?tag={{ data.name_text }}">
+        <h4>{{ data.name_text }}</h4>
+        <p>{{ data.chat_text }}</p>
+        </a>
+    </div>
+    {% endfor %}
+    </div>
+    <form action="" method="post" id="text_form">
+        <h3>create new tag</h3>
+        <p style="background-color: pink"><b>*この機能ではタグ自体が追加されます。同じようなタグを作成すると混乱の原因となりますので、責任を持って追加してください。また、同名のタグは作ることができません。</b></p>
+        {% csrf_token %} 
+        tag name <br>
+        {{ form.name }}
+        <br> 
+        description<br>
+        {{ form.text }}
+        <input type="submit" value="送信" id="button">
+        <hr>
+    </form>
+    {% endblock %}
+</body>
+</html>

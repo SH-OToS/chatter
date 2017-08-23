@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatter HOME</title>
+    <style>
+        .state {
+            margin: 5px;
+            background-color: white;
+        }
+
+        #id_text {
+            word-wrap: break-word;
+            min-height: 16px;
+        }
+
+        #text_form {
+            background-color: white;
+        }
+
+        h3 {
+            background-color: black;
+            color: white;
+            margin-top: 0px;
+        }
+
+        h4 {
+            background-color: skyblue;
+            color: black;
+            margin: 0px;
+        }
+
+        p {
+            color: black;
+        }
+
+        #tag_info {
+            background-color: #e3e7f2;
+        }
+
+        .box {
+            border: 1px solid black;
+        }
+
+        #tags {
+            background-color: #e8ac94;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chatter</h1>
+    {% block body %}
+    <p><a href="/chatter/home/">HOME</a></p>
+    <div id="tag_info" class="box">
+    <h3>Current tug</h3>
+    <p><b>Name: </b><u>{{ tag.name_text }}</u></p>
+    <p><b>Descriotion: </b><u>{{ tag.chat_text }}</u></p>
+    </div>
+    <div class="box" id="tags">
+        <h3> All tags </h3>
+    {% for data in titles %}
+    <div class="state box">
+        <a href="/chatter/chat/?title={{ data.id }}"><h4>{{ data.name_text }}</h4><p>{{ data.chat_text }}</p></a>
+    </div>
+    {% endfor %}
+    </div>
+    <form action="" method="post" id="text_form" class="box">
+        <h3>Create new title</h3>
+        {% csrf_token %} 
+        title name <br>
+        {{ form.name }}
+        <br> 
+        description<br>
+        {{ form.text }}
+        <input type="submit" value="送信" id="button">
+        <hr>
+    </form>
+    {% endblock %}
+</body>
+</html>
